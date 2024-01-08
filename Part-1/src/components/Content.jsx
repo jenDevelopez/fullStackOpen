@@ -3,19 +3,14 @@ import Part2 from "./Part2";
 import Part3 from "./Part3";
 
 const Content = ({
-  part1,
-  part2,
-  part3,
-  exercises1,
-  exercises2,
-  exercises3,
+  parts 
 }) => {
+  const [part1, part2, part3] = parts
   return (
     <>
-      <Part1 part1={part1} exercises1={exercises1} />
-      <Part2 part2={part2} exercises2={exercises2} />
-      <Part3 part3={part3} exercises3={exercises3} />
-
+      <Part1 part1={part1.name}  exercises1={part1.exercises}/>
+      <Part2 part2={part2.name}  exercises1={part2.exercises}/>
+      <Part3 part3={part3.name}  exercises1={part3.exercises}/>
     </>
   );
 };

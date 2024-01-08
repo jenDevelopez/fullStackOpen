@@ -1,3 +1,4 @@
+
 const Part2 = ({ part2, exercises2 }) => {
   return (
     <p>
