@@ -7,7 +7,7 @@ function Content({ parts }) {
       {parts.map((part) => (
         <li key={part.id}>
          {part.name}
-         <span>{part.exercises}</span>
+         <span> {part.exercises}</span>
         </li>
       ))}
     </ul>
