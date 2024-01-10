@@ -1,7 +1,9 @@
 
 function Content({ parts }) {
+  const total = parts.map((part) => part.exercises).reduce((accumulator, currentValue) => accumulator + currentValue)
   return (
-    <ul>
+    <>
+     <ul>
       {parts.map((part) => (
         <li key={part.id}>
          {part.name}
@@ -9,6 +11,9 @@ function Content({ parts }) {
         </li>
       ))}
     </ul>
+    <p>total of {total} exercises</p>
+    </>
+   
   )
 }
 

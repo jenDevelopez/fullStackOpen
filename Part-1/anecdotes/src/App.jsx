@@ -43,6 +43,7 @@ const App = () => {
     });
   };
 
+
   const handleClickVote = () => {
     addVote();
     maxValueAnecdoteAndPuntutaion();
