@@ -14,6 +14,7 @@ function App() {
       .get("https://restcountries.com/v3.1/all")
       .then((response) => setCountries(response.data));
   }, []);
+
   return (
     <div>
       <div>
@@ -24,18 +25,36 @@ function App() {
         />
       </div>
       <div>
-        {filteredCountries.length > 10 ? (
-          <p>
-           To many matches, specify antoher filter
-          </p>
-        ) : (
-          <ul>
-            {filteredCountries.map((country) => (
-              <li key={country.name.common}>{country.name.common}</li>
-            ))}
-          </ul>
-        )}
-       
+        <div>
+          {filteredCountries.length > 10 ? (
+            <p>
+              Too many matches, specify another filter
+            </p>
+          ) : filteredCountries.length === 1 ? (
+            <>
+              {filteredCountries.map((country) => (
+                <div key={country.name.common}>
+                  <h1>{country.name.common}</h1>
+                  <p>capital {country.capital}</p>
+                  <p>population {country.population}</p>
+                  <h2>languages</h2>
+                  <ul>
+                    {Object.values(country.languages).map((lang) => (
+                      <li key={lang}>{lang}</li>
+                    ))}
+                  </ul>
+                  <img src={country.flags.png} alt={country.flags.alt} />
+                </div>
+              ))}
+            </>
+          ) : (
+            <ul>
+              {filteredCountries.map((country) => (
+                <li key={country.name.common}>{country.name.common}</li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
