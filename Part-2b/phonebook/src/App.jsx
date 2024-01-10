@@ -1,20 +1,22 @@
 import { useState } from "react";
-
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+    { name: "Arto Hellas", number: "040-123456" },
+    { name: "Ada Lovelace", number: "39-44-5323523" },
+    { name: "Dan Abramov", number: "12-43-234345" },
+    { name: "Mary Poppendieck", number: "39-23-6423122" },
+  ]);
 
   const [newName, setNewName] = useState("");
-  const [newPhoneNumber, setNewPhoneNumber] = useState("")
-  const [query, setQuery] = useState("")
+  const [newPhoneNumber, setNewPhoneNumber] = useState("");
+  const [query, setQuery] = useState("");
   const addPerson = () => {
     const newPerson = {
       name: newName,
-      number: newPhoneNumber
+      number: newPhoneNumber,
     };
 
     const personExist = persons.some(
@@ -32,50 +34,27 @@ const App = () => {
     e.preventDefault();
     addPerson();
     setNewName("");
-    setNewPhoneNumber("")
+    setNewPhoneNumber("");
   };
 
-  const filteredPersons = persons.filter((person) => person.name.toLowerCase().match(query.toLowerCase()))
-  
+  const filteredPersons = persons.filter((person) =>
+    person.name.toLowerCase().match(query.toLowerCase())
+  );
+
   return (
     <div>
-      <h1>Phonebook</h1>
-      <div>
-        filter shown with 
-        <input type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}  />
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name:
-          <input 
-            onChange={(e) => setNewName(e.target.value)} 
-            value={newName} />
-         
-        </div>
-        <div>
-          number:
-          <input
-            onChange={(e) => setNewPhoneNumber(e.target.value)}
-            value={newPhoneNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <ul>
-        {filteredPersons.map((person) => (
-          <li key={person.name}>
-            <p>
-              {person.name}
-              <span> {person.number}</span>
-            </p>
-          </li>
-        ))}
-      </ul>
+      <h2>Phonebook</h2>
+      <Filter query={query} setQuery={setQuery} />
+      <h3>add a new</h3>
+      <PersonForm
+        handleSubmit={handleSubmit}
+        newName={newName}
+        setNewName={setNewName}
+        newPhoneNumber={newPhoneNumber}
+        setNewPhoneNumber={setNewPhoneNumber}
+      />
+      <h3>Numbers</h3>
+      <Persons filteredPersons={filteredPersons} />
     </div>
   );
 };
