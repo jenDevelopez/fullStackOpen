@@ -14,16 +14,22 @@ const App = () => {
       name: newName,
       number: newPhoneNumber,
     };
-
+    const url = 'http://localhost:3001/persons'
     const personExist = persons.some(
       (person) => person.name === newPerson.name
     );
 
     if (!personExist) {
-      setPersons(persons.concat(newPerson));
+      axios.post(url,newPerson)
+      .then(response => {
+        setPersons(persons.concat(response));
+        console.log(response)
+      })
     } else {
       alert(`${newName} is already added to phonebook`);
     }
+
+    
   };
 
   const handleSubmit = (e) => {
@@ -41,7 +47,6 @@ const App = () => {
     axios
     .get('http://localhost:3001/persons')
     .then(response => {
-      console.log('promise fulfilled')
       setPersons(response.data)
     })
   },[])
