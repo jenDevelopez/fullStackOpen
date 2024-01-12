@@ -1,6 +1,6 @@
 
 
-function Persons({filteredPersons}) {
+function Persons({filteredPersons, deletePerson}) {
   return (
     <ul>
     {filteredPersons.map((person) => (
@@ -8,6 +8,7 @@ function Persons({filteredPersons}) {
         <p>
           {person.name}
           <span> {person.number}</span>
+          <button onClick={() => deletePerson(person.id,person.name)}>delete</button>
         </p>
       </li>
     ))}

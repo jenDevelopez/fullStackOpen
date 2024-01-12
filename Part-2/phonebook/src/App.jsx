@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import personService from './services/persons'
+import personService from "./services/persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [query, setQuery] = useState("");
-  
+
   const addPerson = () => {
     const newPerson = {
       name: newName,
@@ -19,18 +20,14 @@ const App = () => {
     );
 
     if (!personExist) {
-      personService
-        .create(newPerson)
-        .then(response => {
-          setPersons(persons.concat(response.data))
-          setNewName('')
-          setNewPhoneNumber('')
-        })
+      personService.create(newPerson).then((response) => {
+        setPersons(persons.concat(response.data));
+        setNewName("");
+        setNewPhoneNumber("");
+      });
     } else {
       alert(`${newName} is already added to phonebook`);
     }
-
-    
   };
 
   const handleSubmit = (e) => {
@@ -44,13 +41,20 @@ const App = () => {
     person.name.toLowerCase().match(query.toLowerCase())
   );
 
+  const deletePerson = (id, name) => {
+    const confirmation = confirm(`Delete ${name}`);
+    if (confirmation) {
+      personService.deletePerson(id);
+
+      personService.getAll().then((response) => setPersons(response.data));
+    }
+  };
+
   useEffect(() => {
-    personService
-      .getAll()
-      .then(response => {
-        setPersons(response.data)
-    })
-  },[])
+    personService.getAll().then((response) => {
+      setPersons(response.data);
+    });
+  }, [persons]);
 
   return (
     <div>
@@ -65,7 +69,7 @@ const App = () => {
         setNewPhoneNumber={setNewPhoneNumber}
       />
       <h3>Numbers</h3>
-      <Persons filteredPersons={filteredPersons} />
+      <Persons filteredPersons={filteredPersons} deletePerson={deletePerson} />
     </div>
   );
 };
