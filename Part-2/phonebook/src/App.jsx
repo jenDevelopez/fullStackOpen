@@ -9,6 +9,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [query, setQuery] = useState("");
+  const [message, setMessage] = useState("");
 
   const addPerson = () => {
     const newPerson = {
@@ -29,6 +30,7 @@ const App = () => {
         setPersons(persons.concat(response.data));
         setNewName("");
         setNewPhoneNumber("");
+        setMessage(`Added ${newPerson.name}`);
       });
     } else {
       const confirmation = confirm(
@@ -38,15 +40,20 @@ const App = () => {
         const changedPerson = { ...newPerson, number: newPhoneNumber };
         personService
           .update(existingPerson.id, changedPerson)
-          .then((returnedPerson) => {
+          .then((response) => {
             setPersons(
               persons.map((person) =>
-                person.id !== personExist.id ? newPerson : returnedPerson
+                person.id !== response.data.id ? person : response.data
               )
             );
+            setMessage(`${response.data.name} has been updated`)
           });
       }
     }
+
+    setTimeout(() => {
+      setMessage("");
+    }, 2000);
   };
 
   const handleSubmit = (e) => {
@@ -78,6 +85,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {message !== "" && <div className="added-person">{message}</div>}
       <Filter query={query} setQuery={setQuery} />
       <h3>add a new</h3>
       <PersonForm
