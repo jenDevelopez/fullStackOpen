@@ -15,7 +15,12 @@ const App = () => {
       name: newName,
       number: newPhoneNumber,
     };
+
     const personExist = persons.some(
+      (person) => person.name === newPerson.name
+    );
+
+    const existingPerson = persons.find(
       (person) => person.name === newPerson.name
     );
 
@@ -26,7 +31,21 @@ const App = () => {
         setNewPhoneNumber("");
       });
     } else {
-      alert(`${newName} is already added to phonebook`);
+      const confirmation = confirm(
+        `${newPerson.name} is already added to phobebook, replace the old number with a new one?`
+      );
+      if (confirmation) {
+        const changedPerson = { ...newPerson, number: newPhoneNumber };
+        personService
+          .update(existingPerson.id, changedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== personExist.id ? newPerson : returnedPerson
+              )
+            );
+          });
+      }
     }
   };
 
