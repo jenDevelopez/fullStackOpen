@@ -4,7 +4,7 @@ function Persons({filteredPersons, deletePerson}) {
   return (
     <ul>
     {filteredPersons.map((person) => (
-      <li key={person.name}>
+      <li key={person.name} className="person">
         <p>
           {person.name}
           <span> {person.number}</span>

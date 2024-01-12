@@ -10,6 +10,7 @@ const App = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("")
 
   const addPerson = () => {
     const newPerson = {
@@ -47,13 +48,15 @@ const App = () => {
               )
             );
             setMessage(`${response.data.name} has been updated`)
-          });
+          })
+          .catch(() => setError(`Information of ${changedPerson.name} has already been removed from server`))
       }
     }
 
     setTimeout(() => {
       setMessage("");
-    }, 2000);
+      setError("")
+    }, 3000);
   };
 
   const handleSubmit = (e) => {
@@ -86,6 +89,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       {message !== "" && <div className="added-person">{message}</div>}
+      {error !== "" &&  <div className="error">{error}</div>}
       <Filter query={query} setQuery={setQuery} />
       <h3>add a new</h3>
       <PersonForm
